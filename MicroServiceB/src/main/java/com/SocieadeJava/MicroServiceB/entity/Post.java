@@ -16,7 +16,10 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String titulo;
+
+    @Column(nullable = false, length = 1000)
     private String conteudo;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -34,5 +37,15 @@ public class Post {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", conteudo='" + conteudo + '\'' +
+                '}';
+    }
+
 }
 
