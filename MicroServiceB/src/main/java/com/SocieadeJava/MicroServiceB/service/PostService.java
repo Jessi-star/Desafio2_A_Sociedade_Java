@@ -1,5 +1,6 @@
 package com.SocieadeJava.MicroServiceB.service;
 
+import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.entity.Post;
 import com.SocieadeJava.MicroServiceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,31 +8,59 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
 
+    private final PostRepository postRepository;
+
     @Autowired
-    private PostRepository postRepository;
-
-    public Post createPost(Post post) {
-        return postRepository.save(post);
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public PostDTO createPost(PostDTO postDTO) {
+        Post post = new Post();
+        post.setTitulo(postDTO.getTitle());
+        post.setConteudo(postDTO.getBody());
+        post = postRepository.save(post);
+
+        return new PostDTO(post);
     }
 
-    public Optional<Post> findPostById(Long id) {
-        return postRepository.findById(id);
+    public List<PostDTO> getAllPosts() {
+        return postRepository.findAll().stream()
+                .map(PostDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Post savePost(Post post) {
-        return postRepository.save(post);
+    public PostDTO getPostById(Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return new PostDTO(post.orElse(null));
+    }
+
+    public PostDTO updatePost(Long id, PostDTO postDTO) {
+        Optional<Post> postOptional = postRepository.findById(id);
+
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            post.setTitulo(postDTO.getTitle());
+            post.setConteudo(postDTO.getBody());
+            postRepository.save(post);
+            return new PostDTO(post);
+        }
+
+        return null;
     }
 
     public void deletePost(Long id) {
-        postRepository.deleteById(id);
+        Optional<Post> postOptional = postRepository.findById(id);
+
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            postRepository.delete(post);
+        }
     }
 
     public List<Post> getAllPosts() {
