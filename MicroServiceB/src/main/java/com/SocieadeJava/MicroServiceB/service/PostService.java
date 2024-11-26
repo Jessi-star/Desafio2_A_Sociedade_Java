@@ -33,4 +33,13 @@ public class PostService {
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
+
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
+    }
+
+    public Post getPostById(Long id) {
+        Optional<Post> optionalPost = postRepository.findById(id);
+        return optionalPost.orElseThrow(() -> new RuntimeException("Postagem não encontrada com ID: " + id));
+    }
 }
