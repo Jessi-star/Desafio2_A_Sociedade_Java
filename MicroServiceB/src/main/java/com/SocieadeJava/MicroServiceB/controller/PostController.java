@@ -1,6 +1,7 @@
 package com.SocieadeJava.MicroServiceB.controller;
 
 
+import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.entity.Post;
 import com.SocieadeJava.MicroServiceB.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class PostController {
     private PostService postService;
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        Post createdPost = postService.createPost(post);
-        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
+        PostDTO createdPost = postService.createPost(postDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
 }
