@@ -4,6 +4,7 @@ package com.SocieadeJava.MicroServiceB.controller;
 import com.SocieadeJava.MicroServiceB.entity.Post;
 import com.SocieadeJava.MicroServiceB.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        Post savedPost = postService.savePost(post);
-        return ResponseEntity.ok(savedPost);
+        Post createdPost = postService.createPost(post);
+        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 }
