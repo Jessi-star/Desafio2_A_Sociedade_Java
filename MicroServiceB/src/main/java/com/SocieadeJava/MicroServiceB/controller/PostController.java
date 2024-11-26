@@ -34,4 +34,13 @@ public class PostController {
         Post post = postService.getPostById(id);
         return ResponseEntity.ok(post);
     }
+
+    //metodo que busca o Post pelo id e atualiza os dados(titulo e conteudo) do mesmo
+    @PutMapping("/{id}")
+    public ResponseEntity<Post> updatePost(@PathVariable Long id, @RequestBody Post post) {
+        Post updatePost = postService.updatePost(id, post);
+        return ResponseEntity.ok(updatePost);
+    }
+
+
 }
