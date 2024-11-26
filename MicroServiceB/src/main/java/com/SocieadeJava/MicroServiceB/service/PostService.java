@@ -1,8 +1,10 @@
 package com.SocieadeJava.MicroServiceB.service;
 
 import com.SocieadeJava.MicroServiceB.entity.Post;
+import com.SocieadeJava.MicroServiceB.exceptions.ResourceNotFoundException;
 import com.SocieadeJava.MicroServiceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +33,10 @@ public class PostService {
     }
 
     public void deletePost(Long id) {
-        postRepository.deleteById(id);
+        if(postRepository.existsById(id)){
+            postRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException("Post não encontrado com ID: " + id);
+        }
     }
 }
