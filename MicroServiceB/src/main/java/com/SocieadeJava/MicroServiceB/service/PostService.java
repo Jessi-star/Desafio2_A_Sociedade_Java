@@ -1,5 +1,7 @@
 package com.SocieadeJava.MicroServiceB.service;
 
+import com.SocieadeJava.MicroServiceB.client.JsonPlaceholderClient;
+import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.entity.Post;
 import com.SocieadeJava.MicroServiceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +16,17 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    public Post createPost(Post post) {
-        return postRepository.save(post);
+    private final JsonPlaceholderClient jsonPlaceholderClient;
+
+    public PostService(JsonPlaceholderClient jsonPlaceholderClient) {
+        this.jsonPlaceholderClient = jsonPlaceholderClient;
     }
 
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public List<PostDTO> fetchAllPosts() {
+        return jsonPlaceholderClient.getAllPosts();
     }
 
-    public Optional<Post> findPostById(Long id) {
-        return postRepository.findById(id);
-    }
-
-    public Post savePost(Post post) {
-        return postRepository.save(post);
-    }
-
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
+    public PostDTO fetchPostById(Long id) {
+        return jsonPlaceholderClient.getPostById(id);
     }
 }
