@@ -83,7 +83,7 @@ public class PostService {
         }
     }
     public List<PostDTO> syncExternalPosts() {
-        List<PostDTO> externalPosts = jsonPlaceholderClient.getPosts();
+        List<PostDTO> externalPosts = jsonPlaceholderClient.getAllPosts();
 
         externalPosts.forEach(postDTO -> {
             Post post = new Post();
@@ -95,4 +95,4 @@ public class PostService {
         return externalPosts;
     }
 }
-}
+
