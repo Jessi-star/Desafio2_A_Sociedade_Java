@@ -63,12 +63,4 @@ public class PostService {
         }
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
-    }
-
-    public Post getPostById(Long id) {
-        Optional<Post> optionalPost = postRepository.findById(id);
-        return optionalPost.orElseThrow(() -> new RuntimeException("Postagem não encontrada com ID: " + id));
-    }
 }

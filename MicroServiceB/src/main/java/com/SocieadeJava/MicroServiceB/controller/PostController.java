@@ -24,15 +24,10 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = postService.getAllPosts();
-        return ResponseEntity.ok(posts);
+    @GetMapping("/id")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable Long id) {
+        PostDTO postDTO = postService.getPostById(id);
+        return ResponseEntity.ok(postDTO);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
-        Post post = postService.getPostById(id);
-        return ResponseEntity.ok(post);
-    }
 }
