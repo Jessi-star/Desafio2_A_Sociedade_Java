@@ -1,6 +1,7 @@
 package com.SocieadeJava.MicroServiceB.controller;
 
 
+import com.SocieadeJava.MicroServiceB.client.JsonPlaceholderClient;
 import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.exceptions.ResourceInUseException;
 import com.SocieadeJava.MicroServiceB.exceptions.ResourceNotFoundException;

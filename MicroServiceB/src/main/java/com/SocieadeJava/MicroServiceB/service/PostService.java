@@ -1,5 +1,6 @@
 package com.SocieadeJava.MicroServiceB.service;
 
+import com.SocieadeJava.MicroServiceB.client.JsonPlaceholderClient;
 import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.entity.Post;
 import com.SocieadeJava.MicroServiceB.exceptions.ResourceInUseException;
@@ -16,10 +17,12 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private  final JsonPlaceholderClient jsonPlaceholderClient;
 
     @Autowired
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, JsonPlaceholderClient jsonPlaceholderClient) {
         this.postRepository = postRepository;
+        this.jsonPlaceholderClient = jsonPlaceholderClient;
     }
 
     public PostDTO createPost(PostDTO postDTO) {
@@ -28,23 +31,37 @@ public class PostService {
         post.setConteudo(postDTO.getBody());
         post = postRepository.save(post);
 
-        // Incluindo o ID do post no DTO ao retornar
         return PostDTO.fromEntity(post);
     }
 
     public List<PostDTO> getAllPosts() {
-        return postRepository.findAll().stream()
-                .map(PostDTO::fromEntity) // Usando o método estático para mapear
+        List<PostDTO> localPosts = postRepository.findAll().stream()
+                .map(PostDTO::fromEntity)
                 .collect(Collectors.toList());
+
+        List<PostDTO> externalPosts = jsonPlaceholderClient.getAllPosts();
+
+        localPosts.addAll(externalPosts);
+        return localPosts;
     }
 
     public PostDTO getPostById(Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Post não encontrado com ID: " + id));
-        return PostDTO.fromEntity(post);
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post != null) {
+            return PostDTO.fromEntity(post);
+        }
+
+        PostDTO externalPost = jsonPlaceholderClient.getPostById(id);
+        if (externalPost == null) {
+            throw new ResourceNotFoundException("Post não encontrado com ID: " + id);
+        }
+
+        return externalPost;
     }
 
     public PostDTO updatePost(Long id, PostDTO postDTO) {
+
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post não encontrado com ID: " + id));
 
