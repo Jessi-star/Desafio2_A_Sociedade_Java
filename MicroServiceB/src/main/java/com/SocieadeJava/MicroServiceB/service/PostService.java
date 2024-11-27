@@ -2,8 +2,11 @@ package com.SocieadeJava.MicroServiceB.service;
 
 import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.entity.Post;
+import com.SocieadeJava.MicroServiceB.exceptions.ResourceInUseException;
+import com.SocieadeJava.MicroServiceB.exceptions.ResourceNotFoundException;
 import com.SocieadeJava.MicroServiceB.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,10 +60,16 @@ public class PostService {
     public void deletePost(Long id) {
         Optional<Post> postOptional = postRepository.findById(id);
 
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-            postRepository.delete(post);
+        if (postOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Post não encontrado com ID: " + id);
         }
+
+        try {
+            postRepository.delete(postOptional.get());
+        } catch (DataIntegrityViolationException ex) {
+            throw new ResourceInUseException("Não é possível excluir o post pois ele está sendo usado por outro recurso.");
+        }
+
     }
 
 }
