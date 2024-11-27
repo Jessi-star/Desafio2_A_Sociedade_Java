@@ -2,7 +2,6 @@ package com.SocieadeJava.MicroServiceB.controller;
 
 
 import com.SocieadeJava.MicroServiceB.dto.PostDTO;
-import com.SocieadeJava.MicroServiceB.entity.Post;
 import com.SocieadeJava.MicroServiceB.exceptions.ResourceInUseException;
 import com.SocieadeJava.MicroServiceB.exceptions.ResourceNotFoundException;
 import com.SocieadeJava.MicroServiceB.service.PostService;
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")

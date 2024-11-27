@@ -10,7 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,47 +28,41 @@ public class PostService {
         post.setConteudo(postDTO.getBody());
         post = postRepository.save(post);
 
-        return new PostDTO(post);
+        // Incluindo o ID do post no DTO ao retornar
+        return PostDTO.fromEntity(post);
     }
 
     public List<PostDTO> getAllPosts() {
         return postRepository.findAll().stream()
-                .map(PostDTO::new)
+                .map(PostDTO::fromEntity) // Usando o método estático para mapear
                 .collect(Collectors.toList());
     }
 
     public PostDTO getPostById(Long id) {
-        Optional<Post> post = postRepository.findById(id);
-        return new PostDTO(post.orElse(null));
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post não encontrado com ID: " + id));
+        return PostDTO.fromEntity(post);
     }
 
     public PostDTO updatePost(Long id, PostDTO postDTO) {
-        Optional<Post> postOptional = postRepository.findById(id);
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post não encontrado com ID: " + id));
 
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-            post.setTitulo(postDTO.getTitle());
-            post.setConteudo(postDTO.getBody());
-            postRepository.save(post);
-            return new PostDTO(post);
-        }
+        post.setTitulo(postDTO.getTitle());
+        post.setConteudo(postDTO.getBody());
+        postRepository.save(post);
 
-        return null;
+        return PostDTO.fromEntity(post);
     }
 
     public void deletePost(Long id) {
-        Optional<Post> postOptional = postRepository.findById(id);
-
-        if (postOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Post não encontrado com ID: " + id);
-        }
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post não encontrado com ID: " + id));
 
         try {
-            postRepository.delete(postOptional.get());
+            postRepository.delete(post);
         } catch (DataIntegrityViolationException ex) {
             throw new ResourceInUseException("Não é possível excluir o post pois ele está sendo usado por outro recurso.");
         }
-
     }
-
 }
