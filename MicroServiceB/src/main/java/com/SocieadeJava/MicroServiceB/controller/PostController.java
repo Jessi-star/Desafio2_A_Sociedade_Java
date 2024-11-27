@@ -1,49 +1,76 @@
 package com.SocieadeJava.MicroServiceB.controller;
 
-
-import com.SocieadeJava.MicroServiceB.client.JsonPlaceholderClient;
 import com.SocieadeJava.MicroServiceB.dto.PostDTO;
-import com.SocieadeJava.MicroServiceB.exceptions.ResourceInUseException;
-import com.SocieadeJava.MicroServiceB.exceptions.ResourceNotFoundException;
 import com.SocieadeJava.MicroServiceB.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+    private final PostService postService;
 
-    @PostMapping
-    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
-        PostDTO createdPost = postService.createPost(postDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
+    // Injeção de dependência do serviço de Post
+    public PostController(PostService postService) {
+        this.postService = postService;
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<PostDTO> getPostById(@PathVariable Long id) {
-        PostDTO postDTO = postService.getPostById(id);
-        return ResponseEntity.ok(postDTO);
+    /**
+     * Retorna todos os posts (banco de dados + API externa).
+     * @return Lista de PostDTO com todos os posts
+     */
+    @GetMapping("/posts")
+    public List<PostDTO> getAllPosts() {
+        return postService.getAllPosts();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id){
+    /**
+     * Retorna um post específico pelo ID.
+     * @param id ID do post
+     * @return PostDTO com as informações do post
+     */
+    @GetMapping("/posts/{id}")
+    public PostDTO getPostById(@PathVariable Long id) {
+        return postService.getPostById(id);
+    }
+
+    /**
+     * Cria um novo post.
+     * @param postDTO Dados do post a ser criado
+     * @return PostDTO com as informações do post criado
+     */
+    @PostMapping("/posts")
+    @ResponseStatus(HttpStatus.CREATED)
+    public PostDTO createPost(@RequestBody PostDTO postDTO) {
+        return postService.createPost(postDTO);
+    }
+
+    /**
+     * Atualiza um post existente.
+     * @param id ID do post a ser atualizado
+     * @param postDTO Dados atualizados do post
+     * @return PostDTO com o post atualizado
+     */
+    @PutMapping("/posts/{id}")
+    public PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
+        return postService.updatePost(id, postDTO);
+    }
+
+    /**
+     * Deleta um post pelo ID.
+     * @param id ID do post a ser deletado
+     */
+    @DeleteMapping("/posts/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePost(@PathVariable Long id) {
         postService.deletePost(id);
-        return ResponseEntity.noContent().build();
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex){
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    @PostMapping("/sync-data")
+    public List<PostDTO> syncExternalPosts() {
+        return postService.syncExternalPosts();
     }
-
-    @ExceptionHandler(ResourceInUseException.class)
-    public ResponseEntity<String> handleResourceInUse(ResourceInUseException ex){
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
-    }
-
 }

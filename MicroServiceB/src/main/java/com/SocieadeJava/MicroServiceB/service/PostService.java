@@ -82,4 +82,17 @@ public class PostService {
             throw new ResourceInUseException("Não é possível excluir o post pois ele está sendo usado por outro recurso.");
         }
     }
+    public List<PostDTO> syncExternalPosts() {
+        List<PostDTO> externalPosts = jsonPlaceholderClient.getPosts();
+
+        externalPosts.forEach(postDTO -> {
+            Post post = new Post();
+            post.setTitulo(postDTO.getTitle());
+            post.setConteudo(postDTO.getBody());
+            postRepository.save(post);
+        });
+
+        return externalPosts;
+    }
+}
 }
