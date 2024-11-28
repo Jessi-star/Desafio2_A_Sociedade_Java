@@ -17,9 +17,6 @@ public class PostService {
         this.postClient = postClient;
     }
 
-    public List<PostDTO> fetchAllPosts() {
-        return postClient.getAllPosts();
-    }
 
     public PostDTO createPost(PostDTO postDTO) {
         return postClient.createPost(postDTO);
@@ -28,4 +25,16 @@ public class PostService {
     public PostDTO updatePost(Long id, PostDTO postDTO) {
         return postClient.updatePost(id, postDTO);
     }
+
+    public List<PostDTO> getAllPosts() {
+        return postClient.getAllPosts();
+
+    }
+
+    public PostDTO getPostById(Long id) {
+        return postClient.getPostById(id);
+    }
+
+
+
 }

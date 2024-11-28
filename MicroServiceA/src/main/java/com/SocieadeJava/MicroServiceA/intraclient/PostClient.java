@@ -19,4 +19,8 @@ public interface PostClient {
 
     @PutMapping("/posts/{id}")
     PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO);
+
+    @GetMapping("/posts/{id}")
+    PostDTO getPostById(@PathVariable Long id);
+
 }
