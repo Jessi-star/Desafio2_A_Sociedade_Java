@@ -24,4 +24,8 @@ public class PostService {
     public PostDTO createPost(PostDTO postDTO) {
         return postClient.createPost(postDTO);
     }
+
+    public PostDTO updatePost(Long id, PostDTO postDTO) {
+        return postClient.updatePost(id, postDTO);
+    }
 }
