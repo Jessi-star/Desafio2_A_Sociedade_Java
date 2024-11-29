@@ -3,6 +3,7 @@ package com.SocieadeJava.MicroServiceB.controller;
 import com.SocieadeJava.MicroServiceB.dto.PostDTO;
 import com.SocieadeJava.MicroServiceB.service.PostService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class PostController {
     @PostMapping("/posts")
     @ResponseStatus(HttpStatus.CREATED)
     public PostDTO createPost(@RequestBody PostDTO postDTO) {
+        System.out.println("Received PostDTO: Title = " + postDTO.getTitle() + ", Body = " + postDTO.getBody());
         return postService.createPost(postDTO);
     }
 
@@ -40,10 +42,11 @@ public class PostController {
     }
 
     @DeleteMapping("/posts/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePost(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
+        return ResponseEntity.noContent().build();
     }
+
 
 
     @PostMapping("/sync-data")

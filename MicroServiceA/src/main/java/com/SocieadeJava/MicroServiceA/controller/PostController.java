@@ -2,13 +2,12 @@ package com.SocieadeJava.MicroServiceA.controller;
 
 import com.SocieadeJava.MicroServiceA.dto.PostDTO;
 import com.SocieadeJava.MicroServiceA.service.PostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
@@ -17,21 +16,29 @@ public class PostController {
         this.postService = postService;
     }
 
+    @GetMapping
+    public List<PostDTO> getAllPosts() {
+        return postService.fetchAllPosts();
+    }
 
-    @PutMapping("/posts/{id}")
+    @PostMapping
+    public PostDTO createPost(@RequestBody PostDTO postDTO) {
+        return postService.createPost(postDTO);
+    }
+
+    @PutMapping("/{id}")
     public PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
         return postService.updatePost(id, postDTO);
     }
 
-    @GetMapping("/posts")
-    public List<PostDTO> getAllPosts() {
-        return postService.getAllPosts();
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
     }
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/{id}")
     public PostDTO getPostById(@PathVariable Long id) {
         return postService.getPostById(id);
     }
-
-
 }
+
