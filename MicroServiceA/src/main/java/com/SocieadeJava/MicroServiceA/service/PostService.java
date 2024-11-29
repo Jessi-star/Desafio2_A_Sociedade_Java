@@ -35,6 +35,8 @@ public class PostService {
         return postClient.getPostById(id);
     }
 
-
+    public void deletePost(Long id) {
+        postClient.deletePost(id);
+    }
 
 }
