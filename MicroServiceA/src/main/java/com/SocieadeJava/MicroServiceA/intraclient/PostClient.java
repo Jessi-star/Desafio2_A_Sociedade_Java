@@ -23,4 +23,6 @@ public interface PostClient {
     @GetMapping("/posts/{id}")
     PostDTO getPostById(@PathVariable Long id);
 
+    @DeleteMapping("/posts/{id}")
+    PostDTO deletePost(@PathVariable Long id);
 }
