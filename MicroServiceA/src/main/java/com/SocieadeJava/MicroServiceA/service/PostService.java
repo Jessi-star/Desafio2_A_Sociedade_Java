@@ -28,4 +28,7 @@ public class PostService {
     public PostDTO updatePost(Long id, PostDTO postDTO) {
         return postClient.updatePost(id, postDTO);
     }
+
+    public void deletePost(Long id) { postClient.deletePost(id);
+    }
 }

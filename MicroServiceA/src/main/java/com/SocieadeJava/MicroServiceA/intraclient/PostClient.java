@@ -19,4 +19,6 @@ public interface PostClient {
 
     @PutMapping("/posts/{id}")
     PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO);
+
+    @DeleteMapping("/posts/{id}") void deletePost(@PathVariable Long id);
 }
