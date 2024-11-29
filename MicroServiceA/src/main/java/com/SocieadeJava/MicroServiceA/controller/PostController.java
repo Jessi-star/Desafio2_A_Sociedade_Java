@@ -26,7 +26,7 @@ public class PostController {
         return postService.createPost(postDTO);
     }
 
-    @PutMapping("/posts/{id}")
+    @PutMapping("/{id}")
     public PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
         return postService.updatePost(id, postDTO);
     }
@@ -36,4 +36,9 @@ public class PostController {
         postService.deletePost(id);
     }
 
+    @GetMapping("/{id}")
+    public PostDTO getPostById(@PathVariable Long id) {
+        return postService.getPostById(id);
+    }
 }
+
