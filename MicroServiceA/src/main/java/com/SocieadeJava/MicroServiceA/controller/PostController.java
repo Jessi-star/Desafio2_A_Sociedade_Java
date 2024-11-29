@@ -4,6 +4,8 @@ import com.SocieadeJava.MicroServiceA.dto.PostDTO;
 import com.SocieadeJava.MicroServiceA.service.PostService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -14,6 +16,15 @@ public class PostController {
         this.postService = postService;
     }
 
+    @GetMapping
+    public List<PostDTO> getAllPosts() {
+        return postService.fetchAllPosts();
+    }
+
+    @PostMapping
+    public PostDTO createPost(@RequestBody PostDTO postDTO) {
+        return postService.createPost(postDTO);
+    }
 
     @PutMapping("/posts/{id}")
     public PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
