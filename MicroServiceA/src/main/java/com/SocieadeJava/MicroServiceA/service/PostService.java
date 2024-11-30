@@ -34,4 +34,8 @@ public class PostService {
     public PostDTO getPostById(Long id) {
         return postClient.getPostById(id);
     }
+
+    public List<PostDTO> fetchAllPosts() {
+        return postClient.getAllPosts();
+    }
 }
