@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/posts")
 public class PostController {
 
     private final PostService postService;
@@ -14,20 +16,19 @@ public class PostController {
         this.postService = postService;
     }
 
+    @GetMapping
+    public List<PostDTO> getAllPosts() {
+        return postService.fetchAllPosts();
+    }
 
-    @PutMapping("/posts/{id}")
+    @PostMapping
+    public PostDTO createPost(@RequestBody PostDTO postDTO) {
+        return postService.createPost(postDTO);
+    }
+
+    @PutMapping("/{id}")
     public PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
         return postService.updatePost(id, postDTO);
-    }
-
-    @GetMapping("/posts")
-    public List<PostDTO> getAllPosts() {
-        return postService.getAllPosts();
-    }
-
-    @GetMapping("/posts/{id}")
-    public PostDTO getPostById(@PathVariable Long id) {
-        return postService.getPostById(id);
     }
 
     @DeleteMapping("/{id}")
@@ -35,4 +36,9 @@ public class PostController {
         postService.deletePost(id);
     }
 
+    @GetMapping("/{id}")
+    public PostDTO getPostById(@PathVariable Long id) {
+        return postService.getPostById(id);
+    }
 }
+

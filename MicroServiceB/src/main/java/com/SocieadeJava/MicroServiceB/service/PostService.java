@@ -61,13 +61,16 @@ public class PostService {
     }
 
     public PostDTO updatePost(Long id, PostDTO postDTO) {
-
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post não encontrado com ID: " + id));
 
+        if (postDTO.getTitle() == null || postDTO.getBody() == null) {
+            throw new IllegalArgumentException("Título e conteúdo não podem ser nulos.");
+        }
+
         post.setTitulo(postDTO.getTitle());
         post.setConteudo(postDTO.getBody());
-        postRepository.save(post);
+        post = postRepository.save(post);
 
         return PostDTO.fromEntity(post);
     }
@@ -79,9 +82,10 @@ public class PostService {
         try {
             postRepository.delete(post);
         } catch (DataIntegrityViolationException ex) {
-            throw new ResourceInUseException("Não é possível excluir o post pois ele está sendo usado por outro recurso.");
+            throw new ResourceInUseException("Não é possível excluir o post, pois ele está sendo utilizado por outro recurso.");
         }
     }
+
     public List<PostDTO> syncExternalPosts() {
         List<PostDTO> externalPosts = jsonPlaceholderClient.getAllPosts();
 
