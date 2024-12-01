@@ -2,6 +2,7 @@ package com.SocieadeJava.MicroServiceA.controller;
 
 import com.SocieadeJava.MicroServiceA.dto.PostDTO;
 import com.SocieadeJava.MicroServiceA.service.PostService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +28,13 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
-        return postService.updatePost(id, postDTO);
+    public ResponseEntity<PostDTO> updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO) {
+        PostDTO updatedPost = postService.updatePost(id, postDTO);
+
+        if (updatedPost == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedPost);
     }
 
     @DeleteMapping("/{id}")
