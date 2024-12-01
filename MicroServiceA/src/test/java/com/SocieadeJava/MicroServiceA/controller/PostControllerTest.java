@@ -31,8 +31,10 @@ public class PostControllerTest {
         postDTO = new PostDTO(1L, "Teste", "Testando teste");
     }
 
+    // Teste para criar um post com sucesso
     @Test
     void testarCriarPost_deveRetornarPostCriado() {
+        // Simula o comportamento do serviço para retornar o postDTO quando o método createPost for chamado
         when(postService.createPost(postDTO)).thenReturn(postDTO);
 
         PostDTO resposta = postController.createPost(postDTO);
@@ -44,8 +46,10 @@ public class PostControllerTest {
         verify(postService, times(1)).createPost(postDTO);
     }
 
+    // Teste para obter um post por ID com sucesso
     @Test
     void testarObterPostPorId_deveRetornarPostExistente() {
+        // Simula o comportamento do serviço para retornar o postDTO quando o método getPostById for chamado
         when(postService.getPostById(1L)).thenReturn(postDTO);
 
         PostDTO resposta = postController.getPostById(1L);
@@ -57,8 +61,10 @@ public class PostControllerTest {
         verify(postService, times(1)).getPostById(1L);
     }
 
+    // Teste para atualizar um post com sucesso
     @Test
     void testarAtualizarPost_deveRetornarPostAtualizado() {
+        // Simula o comportamento do serviço para retornar o postDTO quando o método updatePost for chamado
         when(postService.updatePost(1L, postDTO)).thenReturn(postDTO);
 
         ResponseEntity<PostDTO> resposta = postController.updatePost(1L, postDTO);
@@ -71,8 +77,11 @@ public class PostControllerTest {
         verify(postService, times(1)).updatePost(1L, postDTO);
     }
 
+    // Teste para deletar um post com sucesso
     @Test
     void testarDeletarPost_deveRetornarTrueQuandoSucesso() {
+        
+        // Simula o comportamento do serviço para não retornar nada quando o método deletePost for chamado
         doNothing().when(postService).deletePost(1L);
 
         postController.deletePost(1L);
