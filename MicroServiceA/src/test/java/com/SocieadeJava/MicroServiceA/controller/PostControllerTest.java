@@ -99,5 +99,18 @@ public class PostControllerTest {
         verify(postService, times(1)).deletePost(1L);
     }
 
+    // Teste para deletar um post que não existe
+    @Test
+    void testarDeletarPost_deveRetornarErroQuandoPostNaoExistir() {
+        doThrow(new RuntimeException("Post não encontrado")).when(postService).deletePost(1L);
+
+        try {
+            postController.deletePost(1L);
+        } catch (Exception e) {
+            assertEquals("Post não encontrado", e.getMessage());
+        }
+
+        verify(postService, times(1)).deletePost(1L);
+    }
 
 }
