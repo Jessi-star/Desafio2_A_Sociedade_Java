@@ -57,6 +57,21 @@ public class PostControllerTest {
         verify(postService, times(1)).getPostById(1L);
     }
 
-    
+    @Test
+    void testarAtualizarPost_deveRetornarPostAtualizado() {
+        when(postService.updatePost(1L, postDTO)).thenReturn(postDTO);
+
+        ResponseEntity<PostDTO> resposta = postController.updatePost(1L, postDTO);
+
+        assertNotNull(resposta.getBody(), "O corpo da resposta não deve ser nulo");
+        assertEquals(200, resposta.getStatusCodeValue(), "O código de status deve ser 200 OK");
+        assertEquals(postDTO.getTitle(), resposta.getBody().getTitle(), "Os títulos devem ser iguais");
+        assertEquals(postDTO.getBody(), resposta.getBody().getBody(), "Os corpos devem ser iguais");
+
+        verify(postService, times(1)).updatePost(1L, postDTO);
+    }
+
+
+
 
 }
