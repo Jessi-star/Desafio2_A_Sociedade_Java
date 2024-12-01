@@ -44,6 +44,24 @@ public class PostControllerTest {
         verify(postService, times(1)).createPost(postDTO);
     }
 
+    @Test
+    void testarCriarPost_deveRetornarErroQuandoDadosInvalidos() {
+        postDTO.setTitle("");
+
+        doThrow(new IllegalArgumentException("Título é obrigatório"))
+                .when(postService).createPost(postDTO);
+
+        try {
+            postController.createPost(postDTO);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("Título é obrigatório"),
+                    "A mensagem de erro deve informar que o título é obrigatório");
+        }
+
+        verify(postService, times(1)).createPost(postDTO);
+    }
+
+
     // Teste para obter um post por ID com sucesso
     @Test
     void testarObterPostPorId_deveRetornarPostExistente() {
