@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -33,7 +32,7 @@ public class PostControllerTest {
     // Teste para criar um post com sucesso
     @Test
     void testarCriarPost_deveRetornarPostCriado() {
-        // Simula o comportamento do serviço para retornar o postDTO quando o método createPost for chamado
+        // Simula o comportamento do serviço para retornar o postDTO quando o metodo createPost for chamado
         when(postService.createPost(postDTO)).thenReturn(postDTO);
 
         PostDTO resposta = postController.createPost(postDTO);
@@ -48,7 +47,7 @@ public class PostControllerTest {
     // Teste para obter um post por ID com sucesso
     @Test
     void testarObterPostPorId_deveRetornarPostExistente() {
-        // Simula o comportamento do serviço para retornar o postDTO quando o método getPostById for chamado
+        // Simula o comportamento do serviço para retornar o postDTO quando o metodo getPostById for chamado
         when(postService.getPostById(1L)).thenReturn(postDTO);
 
         PostDTO resposta = postController.getPostById(1L);
@@ -74,7 +73,7 @@ public class PostControllerTest {
     // Teste para atualizar um post com sucesso
     @Test
     void testarAtualizarPost_deveRetornarPostAtualizado() {
-        // Simula o comportamento do serviço para retornar o postDTO quando o método updatePost for chamado
+        // Simula o comportamento do serviço para retornar o postDTO quando o metodo updatePost for chamado
         when(postService.updatePost(1L, postDTO)).thenReturn(postDTO);
 
         ResponseEntity<PostDTO> resposta = postController.updatePost(1L, postDTO);
@@ -87,8 +86,10 @@ public class PostControllerTest {
         verify(postService, times(1)).updatePost(1L, postDTO);
     }
 
+    // Teste para lançar um erro ao tentar atualizar um post inexistente.
     @Test
     void testarAtualizarPost_deveLancarErroQuandoPostNaoExistir() {
+        // Simula o comportamento do serviço para lançar uma exceção quando o metodo updatePost for chamado com um ID inexistente
         when(postService.updatePost(1L, postDTO)).thenThrow(new RuntimeException("Post não encontrado"));
 
         try {
@@ -104,7 +105,7 @@ public class PostControllerTest {
     @Test
     void testarDeletarPost_deveRetornarTrueQuandoSucesso() {
 
-        // Simula o comportamento do serviço para não retornar nada quando o método deletePost for chamado
+        // Simula o comportamento do serviço para não retornar nada quando o metodo deletePost for chamado
         doNothing().when(postService).deletePost(1L);
 
         postController.deletePost(1L);
