@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,6 +60,17 @@ public class PostControllerTest {
         verify(postService, times(1)).getPostById(1L);
     }
 
+    // Teste para obter um post por ID que não existe
+    @Test
+    void testarObterPostPorId_deveRetornarErroQuandoPostNaoExistir() {
+        when(postService.getPostById(1L)).thenReturn(null);  // Simula que não encontrou o post
+
+        PostDTO resposta = postController.getPostById(1L);
+
+        assertNull(resposta, "A resposta deve ser nula quando o post não for encontrado");
+        verify(postService, times(1)).getPostById(1L);
+    }
+
     // Teste para atualizar um post com sucesso
     @Test
     void testarAtualizarPost_deveRetornarPostAtualizado() {
@@ -80,7 +90,7 @@ public class PostControllerTest {
     // Teste para deletar um post com sucesso
     @Test
     void testarDeletarPost_deveRetornarTrueQuandoSucesso() {
-        
+
         // Simula o comportamento do serviço para não retornar nada quando o método deletePost for chamado
         doNothing().when(postService).deletePost(1L);
 
