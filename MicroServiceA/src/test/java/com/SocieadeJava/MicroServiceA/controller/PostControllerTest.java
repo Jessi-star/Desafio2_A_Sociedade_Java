@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -46,8 +48,9 @@ public class PostControllerTest {
 
     @Test
     void testarCriarPost_deveRetornarErroQuandoDadosInvalidos() {
-        postDTO.setTitle("");
+        postDTO.setTitle(""); // Título vazio é inválido
 
+        // Simula a validação lançando uma exceção
         doThrow(new IllegalArgumentException("Título é obrigatório"))
                 .when(postService).createPost(postDTO);
 
@@ -57,7 +60,6 @@ public class PostControllerTest {
             assertTrue(e.getMessage().contains("Título é obrigatório"),
                     "A mensagem de erro deve informar que o título é obrigatório");
         }
-
         verify(postService, times(1)).createPost(postDTO);
     }
 
@@ -86,6 +88,25 @@ public class PostControllerTest {
 
         assertNull(resposta, "A resposta deve ser nula quando o post não for encontrado");
         verify(postService, times(1)).getPostById(1L);
+    }
+
+    @Test
+    void testarGetAllPosts_deveRetornarListaDePosts() {
+        List<PostDTO> postsSimulados = List.of(
+                new PostDTO(1L, "Título 1", "Conteúdo 1"),
+                new PostDTO(2L, "Título 2", "Conteúdo 2")
+        );
+
+        when(postService.fetchAllPosts()).thenReturn(postsSimulados);
+
+        List<PostDTO> resposta = postController.getAllPosts();
+
+        assertNotNull(resposta, "A lista de posts não deve ser nula");
+        assertEquals(2, resposta.size(), "A lista deve conter 2 posts");
+        assertEquals("Título 1", resposta.get(0).getTitle(), "O título do primeiro post deve ser 'Título 1'");
+        assertEquals("Título 2", resposta.get(1).getTitle(), "O título do segundo post deve ser 'Título 2'");
+
+        verify(postService, times(1)).fetchAllPosts();
     }
 
     // Teste para atualizar um post com sucesso
