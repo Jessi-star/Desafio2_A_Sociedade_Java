@@ -71,7 +71,14 @@ public class PostControllerTest {
         verify(postService, times(1)).updatePost(1L, postDTO);
     }
 
+    @Test
+    void testarDeletarPost_deveRetornarTrueQuandoSucesso() {
+        doNothing().when(postService).deletePost(1L);
 
+        postController.deletePost(1L);
+
+        verify(postService, times(1)).deletePost(1L);
+    }
 
 
 }
