@@ -44,5 +44,19 @@ public class PostControllerTest {
         verify(postService, times(1)).createPost(postDTO);
     }
 
+    @Test
+    void testarObterPostPorId_deveRetornarPostExistente() {
+        when(postService.getPostById(1L)).thenReturn(postDTO);
+
+        PostDTO resposta = postController.getPostById(1L);
+
+        assertNotNull(resposta, "A resposta não deve ser nula");
+        assertEquals(postDTO.getTitle(), resposta.getTitle(), "Os títulos devem ser iguais");
+        assertEquals(postDTO.getBody(), resposta.getBody(), "Os corpos devem ser iguais");
+
+        verify(postService, times(1)).getPostById(1L);
+    }
+
     
+
 }
