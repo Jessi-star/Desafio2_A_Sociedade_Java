@@ -90,15 +90,19 @@ public class PostControllerTest {
         verify(postService, times(1)).getPostById(1L);
     }
 
+    // Teste para obter todos os posts com sucesso
     @Test
     void testarGetAllPosts_deveRetornarListaDePosts() {
+        // Simula uma lista de PostDTOs
         List<PostDTO> postsSimulados = List.of(
                 new PostDTO(1L, "Título 1", "Conteúdo 1"),
                 new PostDTO(2L, "Título 2", "Conteúdo 2")
         );
 
+        // Configura o comportamento simulado do serviço
         when(postService.fetchAllPosts()).thenReturn(postsSimulados);
 
+        // Chama o metodo do controlador
         List<PostDTO> resposta = postController.getAllPosts();
 
         assertNotNull(resposta, "A lista de posts não deve ser nula");
