@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -112,6 +113,22 @@ public class PostControllerTest {
 
         verify(postService, times(1)).fetchAllPosts();
     }
+
+    // Teste para verificar se o controlador retorna uma lista vazia quando não houver posts
+    @Test
+    void testarGetAllPosts_deveRetornarListaVaziaQuandoNaoExistiremPosts() {
+        // Simula o comportamento do serviço para retornar uma lista vazia
+        when(postService.fetchAllPosts()).thenReturn(new ArrayList<>());
+
+        // Chama o metodo do controlador
+        List<PostDTO> resposta = postController.getAllPosts();
+
+        assertNotNull(resposta, "A resposta não deve ser nula");
+        assertTrue(resposta.isEmpty(), "A lista de posts deve estar vazia");
+
+        verify(postService, times(1)).fetchAllPosts();
+    }
+
 
     // Teste para atualizar um post com sucesso
     @Test
