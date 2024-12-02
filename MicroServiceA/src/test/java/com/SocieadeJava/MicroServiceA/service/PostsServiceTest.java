@@ -29,7 +29,7 @@ public class PostsServiceTest {
     }
 
     @Test
-    void testCreatePost(){
+    void testarCriarPost(){
         when(postClient.createPost(postDTO)).thenReturn(postDTO);
 
         PostDTO createdPost = postService.createPost(postDTO);
@@ -39,5 +39,17 @@ public class PostsServiceTest {
         assertEquals(postDTO.getBody(), createdPost.getBody());
 
         verify(postClient, times(1)).createPost(postDTO);
+    }
+
+    @Test
+    void testarAtualizarPost_deveChamarPostClient(){
+        when(postClient.updatePost(1L, postDTO)).thenReturn(postDTO);
+
+        PostDTO createdPost = postService.updatePost(1L, postDTO);
+
+        assertNotNull(createdPost, "O resultado não deve ser nulo");
+        assertEquals(postDTO, createdPost, "O post atualizado deve ser retornado corretamente");
+
+        verify(postClient, times(1)).updatePost(1L, postDTO);
     }
 }
