@@ -46,16 +46,68 @@ Este projeto foi desenvolvido como parte de um **desafio técnico em grupo** par
 
 ### Tecnologias Utilizadas
 - **Java 17**  
-- **Spring Boot**  
-- **OpenFeign**  
-- **H2**  
-- **Maven**
+- **Spring Boot 3.4.0**  
+- **Spring Cloud OpenFeign**  
+- **H2 Database**  
+- **Hibernate Validator**  
+- **Lombok**  
+- **API REST**
+- -**Maven**
+
 
 ## **Estrutura do Projeto**  
 
-### **MicroService A**  
-MicroServiceA/ ├── src/ │ ├── main/ │ │ ├── java/ │ │ │ └── com.sociedadejava.microservicea/ │ │ │ ├── controller/ # Controladores REST │ │ │ ├── service/ # Lógica de negócios │ │ │ ├── client/ # Clientes Feign para B │ │ │ ├── dto/ # Objetos de Transferência de Dados │ │ │ └── MicroServiceAApplication.java # Classe principal │ │ └── resources/ │ │ ├── application.yml # Arquivo de configuração │ │ └── data.sql # Dados de exemplo (opcional) └── test/ # Testes unitários e de integração
+MicroServiceA/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com.sociedadejava.microservicea/
+│   │   │       ├── controller/      # Controladores REST
+│   │   │       ├── service/         # Lógica de negócios
+│   │   │       ├── intraclient/      # Clientes Feign para B
+│   │   │       ├── dto/             # Objetos de Transferência de Dados
+│   │   │       └── MicroServiceAApplication.java # Classe principal
+│   │   └── resources/
+│   │       ├── application.properties      # Arquivo de configuração
+│   │
+└── test/                            # Testes unitários e de integração
+
+MicroServiceB/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com.sociedadejava.microserviceb/
+│   │   │       ├── client/          # Clientes Feign para API externa
+│   │   │       ├── controller/      # Controladores REST
+│   │   │       ├── service/         # Lógica de negócios
+│   │   │       ├── repository/      # Repositórios JPA
+│   │   │       ├── dto/             # Objetos de Transferência de Dados
+│   │   │       ├── entity/          # Entidades do banco de dados
+│   │  │        ├── exceptions/     # Exceções
+│   │   │       └── MicroServiceBApplication.java # Classe principal
+│   │   └── resources/
+│   │       ├── application.properties       # Arquivo de configuração
+│   │  
+└── test/                                    # Testes unitários e de integração
 
 
-### **MicroService B**  
-MicroServiceB/ ├── src/ │ ├── main/ │ │ ├── java/ │ │ │ └── com.sociedadejava.microserviceb/ │ │ │ ├── controller/ # Controladores REST │ │ │ ├── service/ # Lógica de negócios │ │ │ ├── repository/ # Repositórios JPA │ │ │ ├── entity/ # Entidades do banco de dados │ │ │ └── MicroServiceBApplication.java # Classe principal │ │ └── resources/ │ │ ├── application.yml # Arquivo de configuração │ │ └── data.sql # Dados de exemplo (opcional) └── test/ # Testes unitários e de integração
+## 🔧 Configuração  
+
+### **Clonar os Repositórios**  
+```bash
+git clone https://github.com/<seu-usuario>/MicroServiceA.git
+git clone https://github.com/<seu-usuario>/MicroServiceB.git
+Executar os Microsserviços
+Inicie o MicroService B
+bash
+Copiar código
+cd MicroServiceB
+mvn spring-boot:run
+Inicie o MicroService A
+bash
+Copiar código
+cd MicroServiceA
+mvn spring-boot:run
+Acessar as Aplicações
+MicroService A: http://localhost:8080
+MicroService B: http://localhost:8081
