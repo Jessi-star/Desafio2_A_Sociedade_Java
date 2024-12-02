@@ -82,4 +82,17 @@ public class PostsServiceTest {
 
         verify(postClient, times(1)).getAllPosts();
     }
+
+    @Test
+    void testarGetPostById_deveRetornarPostPorId() {
+        when(postClient.getPostById(1L)).thenReturn(postDTO);
+
+        PostDTO posts = postService.getPostById(1L);
+
+        assertNotNull(posts, "O post não deve ser nulo");
+        assertEquals(postDTO, posts, "O post retornado deve ser igual ao simulado");
+
+        verify(postClient, times(1)).getPostById(1L);
+    }
+
 }
