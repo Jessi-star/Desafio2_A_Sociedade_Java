@@ -25,6 +25,9 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
 
+    public Post(long l, String title, String body) {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
