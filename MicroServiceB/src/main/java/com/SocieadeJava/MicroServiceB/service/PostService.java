@@ -86,6 +86,7 @@ public class PostService {
         }
     }
 
+
     public List<PostDTO> syncExternalPosts() {
         List<PostDTO> externalPosts = jsonPlaceholderClient.getAllPosts();
 
@@ -97,6 +98,13 @@ public class PostService {
         });
 
         return externalPosts;
+    }
+
+    public Post savePost(Post post) {
+        if (post == null) {
+            throw new IllegalArgumentException("A postagem não pode ser nula");
+        }
+        return postRepository.save(post);
     }
 }
 
