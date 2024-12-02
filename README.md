@@ -52,25 +52,24 @@ Este projeto foi desenvolvido como parte de um **desafio técnico em grupo** par
 - **Hibernate Validator**  
 - **Lombok**  
 - **API REST**
-- -**Maven**
+- **Maven**
 
 
 ## **Estrutura do Projeto**  
 
-MicroServiceA/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com.sociedadejava.microservicea/
-│   │   │       ├── controller/      # Controladores REST
-│   │   │       ├── service/         # Lógica de negócios
-│   │   │       ├── intraclient/      # Clientes Feign para B
-│   │   │       ├── dto/             # Objetos de Transferência de Dados
-│   │   │       └── MicroServiceAApplication.java # Classe principal
-│   │   └── resources/
-│   │       ├── application.properties      # Arquivo de configuração
-│   │
+src/
+├── main/
+│   ├── java/
+│   │   └── com.sociedadejava.microservicea/
+│   │       ├── controller/         # Controladores REST
+│   │       ├── service/            # Lógica de negócios
+│   │       ├── intraclient/        # Clientes Feign para MicroServiceB
+│   │       ├── dto/                # Objetos de Transferência de Dados
+│   │       └── MicroServiceAApplication.java # Classe principal
+│   └── resources/
+│       └── application.properties  # Arquivo de configuração
 └── test/                            # Testes unitários e de integração
+
 
 MicroServiceB/
 ├── src/
