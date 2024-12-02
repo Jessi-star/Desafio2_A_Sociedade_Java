@@ -93,21 +93,19 @@ MicroServiceB/
 
 ## 🔧 Configuração  
 
-### **Clonar os Repositórios**  
+
+### **Clonar os Repositórios e Iniciar os Microsserviços**
 ```bash
+# Clonar os repositórios
 git clone https://github.com/<seu-usuario>/MicroServiceA.git
 git clone https://github.com/<seu-usuario>/MicroServiceB.git
-Executar os Microsserviços
-Inicie o MicroService B
-bash
-Copiar código
+
+# Iniciar o MicroService B
 cd MicroServiceB
 mvn spring-boot:run
-Inicie o MicroService A
-bash
-Copiar código
-cd MicroServiceA
+
+# Iniciar o MicroService A
+cd ../MicroServiceA
 mvn spring-boot:run
-Acessar as Aplicações
-MicroService A: http://localhost:8080
-MicroService B: http://localhost:8081
+
+
