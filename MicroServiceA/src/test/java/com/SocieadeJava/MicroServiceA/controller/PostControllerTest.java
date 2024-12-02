@@ -28,144 +28,142 @@ public class PostControllerTest {
     private PostDTO postDTO;
 
     @BeforeEach
-    void config(){
-        postDTO = new PostDTO(1L, "Teste", "Testando teste");
+    void setup() {
+        postDTO = new PostDTO(1L, "Test", "Testing test");
     }
 
-    // Teste para criar um post com sucesso
+    // Test to create a post successfully
     @Test
-    void testarCriarPost_deveRetornarPostCriado() {
-        // Simula o comportamento do serviço para retornar o postDTO quando o metodo createPost for chamado
+    void testCreatePost_shouldReturnCreatedPost() {
+        // Simulates the service behavior to return the postDTO when the createPost method is called
         when(postService.createPost(postDTO)).thenReturn(postDTO);
 
-        PostDTO resposta = postController.createPost(postDTO);
+        PostDTO response = postController.createPost(postDTO).getBody();
 
-        assertNotNull(resposta, "A resposta não deve ser nula");
-        assertEquals(postDTO.getTitle(), resposta.getTitle(), "Os títulos devem ser iguais");
-        assertEquals(postDTO.getBody(), resposta.getBody(), "Os corpos devem ser iguais");
+        assertNotNull(response, "The response should not be null");
+        assertEquals(postDTO.getTitle(), response.getTitle(), "The titles should be the same");
+        assertEquals(postDTO.getBody(), response.getBody(), "The bodies should be the same");
 
         verify(postService, times(1)).createPost(postDTO);
     }
 
     @Test
-    void testarCriarPost_deveRetornarErroQuandoDadosInvalidos() {
-        postDTO.setTitle(""); // Título vazio é inválido
+    void testCreatePost_shouldReturnErrorWhenInvalidData() {
+        postDTO.setTitle(""); // Empty title is invalid
 
-        // Simula a validação lançando uma exceção
-        doThrow(new IllegalArgumentException("Título é obrigatório"))
+        // Simulates the validation throwing an exception
+        doThrow(new IllegalArgumentException("Title is required"))
                 .when(postService).createPost(postDTO);
 
         try {
             postController.createPost(postDTO);
         } catch (IllegalArgumentException e) {
-            assertTrue(e.getMessage().contains("Título é obrigatório"),
-                    "A mensagem de erro deve informar que o título é obrigatório");
+            assertTrue(e.getMessage().contains("Title is required"),
+                    "The error message should indicate that the title is required");
         }
         verify(postService, times(1)).createPost(postDTO);
     }
 
-
-    // Teste para obter um post por ID com sucesso
+    // Test to get a post by ID successfully
     @Test
-    void testarObterPostPorId_deveRetornarPostExistente() {
-        // Simula o comportamento do serviço para retornar o postDTO quando o metodo getPostById for chamado
+    void testGetPostById_shouldReturnExistingPost() {
+        // Simulates the service behavior to return the postDTO when the getPostById method is called
         when(postService.getPostById(1L)).thenReturn(postDTO);
 
-        PostDTO resposta = postController.getPostById(1L);
+        PostDTO response = postController.getPostById(1L).getBody();
 
-        assertNotNull(resposta, "A resposta não deve ser nula");
-        assertEquals(postDTO.getTitle(), resposta.getTitle(), "Os títulos devem ser iguais");
-        assertEquals(postDTO.getBody(), resposta.getBody(), "Os corpos devem ser iguais");
+        assertNotNull(response, "The response should not be null");
+        assertEquals(postDTO.getTitle(), response.getTitle(), "The titles should be the same");
+        assertEquals(postDTO.getBody(), response.getBody(), "The bodies should be the same");
 
         verify(postService, times(1)).getPostById(1L);
     }
 
-    // Teste para obter um post por ID que não existe
+    // Test to get a post by ID that doesn't exist
     @Test
-    void testarObterPostPorId_deveRetornarErroQuandoPostNaoExistir() {
-        when(postService.getPostById(1L)).thenReturn(null);  // Simula que não encontrou o post
+    void testGetPostById_shouldReturnErrorWhenPostDoesNotExist() {
+        when(postService.getPostById(1L)).thenReturn(null);  // Simulates that the post was not found
 
-        PostDTO resposta = postController.getPostById(1L);
+        PostDTO response = postController.getPostById(1L).getBody();
 
-        assertNull(resposta, "A resposta deve ser nula quando o post não for encontrado");
+        assertNull(response, "The response should be null when the post is not found");
         verify(postService, times(1)).getPostById(1L);
     }
 
-    // Teste para obter todos os posts com sucesso
+    // Test to get all posts successfully
     @Test
-    void testarGetAllPosts_deveRetornarListaDePosts() {
-        // Simula uma lista de PostDTOs
-        List<PostDTO> postsSimulados = List.of(
-                new PostDTO(1L, "Título 1", "Conteúdo 1"),
-                new PostDTO(2L, "Título 2", "Conteúdo 2")
+    void testGetAllPosts_shouldReturnListOfPosts() {
+        // Simulates a list of PostDTOs
+        List<PostDTO> simulatedPosts = List.of(
+                new PostDTO(1L, "Title 1", "Content 1"),
+                new PostDTO(2L, "Title 2", "Content 2")
         );
 
-        // Configura o comportamento simulado do serviço
-        when(postService.fetchAllPosts()).thenReturn(postsSimulados);
+        // Configures the simulated service behavior
+        when(postService.fetchAllPosts()).thenReturn(simulatedPosts);
 
-        // Chama o metodo do controlador
-        List<PostDTO> resposta = postController.getAllPosts();
+        // Calls the controller method
+        List<PostDTO> response = postController.getAllPosts().getBody();
 
-        assertNotNull(resposta, "A lista de posts não deve ser nula");
-        assertEquals(2, resposta.size(), "A lista deve conter 2 posts");
-        assertEquals("Título 1", resposta.get(0).getTitle(), "O título do primeiro post deve ser 'Título 1'");
-        assertEquals("Título 2", resposta.get(1).getTitle(), "O título do segundo post deve ser 'Título 2'");
+        assertNotNull(response, "The list of posts should not be null");
+        assertEquals(2, response.size(), "The list should contain 2 posts");
+        assertEquals("Title 1", response.get(0).getTitle(), "The title of the first post should be 'Title 1'");
+        assertEquals("Title 2", response.get(1).getTitle(), "The title of the second post should be 'Title 2'");
 
         verify(postService, times(1)).fetchAllPosts();
     }
 
-    // Teste para verificar se o controlador retorna uma lista vazia quando não houver posts
+    // Test to check if the controller returns an empty list when there are no posts
     @Test
-    void testarGetAllPosts_deveRetornarListaVaziaQuandoNaoExistiremPosts() {
-        // Simula o comportamento do serviço para retornar uma lista vazia
+    void testGetAllPosts_shouldReturnEmptyListWhenNoPostsExist() {
+        // Simulates the service behavior to return an empty list
         when(postService.fetchAllPosts()).thenReturn(new ArrayList<>());
 
-        // Chama o metodo do controlador
-        List<PostDTO> resposta = postController.getAllPosts();
+        // Calls the controller method
+        List<PostDTO> response = postController.getAllPosts().getBody();
 
-        assertNotNull(resposta, "A resposta não deve ser nula");
-        assertTrue(resposta.isEmpty(), "A lista de posts deve estar vazia");
+        assertNotNull(response, "The response should not be null");
+        assertTrue(response.isEmpty(), "The list of posts should be empty");
 
         verify(postService, times(1)).fetchAllPosts();
     }
 
-
-    // Teste para atualizar um post com sucesso
+    // Test to update a post successfully
     @Test
-    void testarAtualizarPost_deveRetornarPostAtualizado() {
-        // Simula o comportamento do serviço para retornar o postDTO quando o metodo updatePost for chamado
+    void testUpdatePost_shouldReturnUpdatedPost() {
+        // Simulates the service behavior to return the postDTO when the updatePost method is called
         when(postService.updatePost(1L, postDTO)).thenReturn(postDTO);
 
-        ResponseEntity<PostDTO> resposta = postController.updatePost(1L, postDTO);
+        ResponseEntity<PostDTO> response = postController.updatePost(1L, postDTO);
 
-        assertNotNull(resposta.getBody(), "O corpo da resposta não deve ser nulo");
-        assertEquals(200, resposta.getStatusCodeValue(), "O código de status deve ser 200 OK");
-        assertEquals(postDTO.getTitle(), resposta.getBody().getTitle(), "Os títulos devem ser iguais");
-        assertEquals(postDTO.getBody(), resposta.getBody().getBody(), "Os corpos devem ser iguais");
+        assertNotNull(response.getBody(), "The response body should not be null");
+        assertEquals(200, response.getStatusCodeValue(), "The status code should be 200 OK");
+        assertEquals(postDTO.getTitle(), response.getBody().getTitle(), "The titles should be the same");
+        assertEquals(postDTO.getBody(), response.getBody().getBody(), "The bodies should be the same");
 
         verify(postService, times(1)).updatePost(1L, postDTO);
     }
 
-    // Teste para lançar um erro ao tentar atualizar um post inexistente.
+    // Test to throw an error when trying to update a non-existent post.
     @Test
-    void testarAtualizarPost_deveLancarErroQuandoPostNaoExistir() {
-        // Simula o comportamento do serviço para lançar uma exceção quando o metodo updatePost for chamado com um ID inexistente
-        when(postService.updatePost(1L, postDTO)).thenThrow(new RuntimeException("Post não encontrado"));
+    void testUpdatePost_shouldThrowErrorWhenPostDoesNotExist() {
+        // Simulates the service behavior to throw an exception when the updatePost method is called with a non-existent ID
+        when(postService.updatePost(1L, postDTO)).thenThrow(new RuntimeException("Post not found"));
 
         try {
             postController.updatePost(1L, postDTO);
         } catch (Exception e) {
-            assertEquals("Post não encontrado", e.getMessage(), "A mensagem de erro deve ser 'Post não encontrado'");
+            assertEquals("Post not found", e.getMessage(), "The error message should be 'Post not found'");
         }
 
         verify(postService, times(1)).updatePost(1L, postDTO);
     }
 
-    // Teste para deletar um post com sucesso
+    // Test to delete a post successfully
     @Test
-    void testarDeletarPost_deveRetornarTrueQuandoSucesso() {
+    void testDeletePost_shouldReturnTrueWhenSuccess() {
 
-        // Simula o comportamento do serviço para não retornar nada quando o metodo deletePost for chamado
+        // Simulates the service behavior to return nothing when the deletePost method is called
         doNothing().when(postService).deletePost(1L);
 
         postController.deletePost(1L);
@@ -173,18 +171,17 @@ public class PostControllerTest {
         verify(postService, times(1)).deletePost(1L);
     }
 
-    // Teste para deletar um post que não existe
+    // Test to delete a post that does not exist
     @Test
-    void testarDeletarPost_deveRetornarErroQuandoPostNaoExistir() {
-        doThrow(new RuntimeException("Post não encontrado")).when(postService).deletePost(1L);
+    void testDeletePost_shouldReturnErrorWhenPostDoesNotExist() {
+        doThrow(new RuntimeException("Post not found")).when(postService).deletePost(1L);
 
         try {
             postController.deletePost(1L);
         } catch (Exception e) {
-            assertEquals("Post não encontrado", e.getMessage());
+            assertEquals("Post not found", e.getMessage());
         }
 
         verify(postService, times(1)).deletePost(1L);
     }
-
 }
