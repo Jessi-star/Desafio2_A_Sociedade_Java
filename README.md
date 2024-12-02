@@ -49,4 +49,13 @@ Este projeto foi desenvolvido como parte de um **desafio técnico em grupo** par
 - **Spring Boot**  
 - **OpenFeign**  
 - **H2**  
-- **Maven**  
+- **Maven**
+
+## **Estrutura do Projeto**  
+
+### **MicroService A**  
+MicroServiceA/ ├── src/ │ ├── main/ │ │ ├── java/ │ │ │ └── com.sociedadejava.microservicea/ │ │ │ ├── controller/ # Controladores REST │ │ │ ├── service/ # Lógica de negócios │ │ │ ├── client/ # Clientes Feign para B │ │ │ ├── dto/ # Objetos de Transferência de Dados │ │ │ └── MicroServiceAApplication.java # Classe principal │ │ └── resources/ │ │ ├── application.yml # Arquivo de configuração │ │ └── data.sql # Dados de exemplo (opcional) └── test/ # Testes unitários e de integração
+
+
+### **MicroService B**  
+MicroServiceB/ ├── src/ │ ├── main/ │ │ ├── java/ │ │ │ └── com.sociedadejava.microserviceb/ │ │ │ ├── controller/ # Controladores REST │ │ │ ├── service/ # Lógica de negócios │ │ │ ├── repository/ # Repositórios JPA │ │ │ ├── entity/ # Entidades do banco de dados │ │ │ └── MicroServiceBApplication.java # Classe principal │ │ └── resources/ │ │ ├── application.yml # Arquivo de configuração │ │ └── data.sql # Dados de exemplo (opcional) └── test/ # Testes unitários e de integração
