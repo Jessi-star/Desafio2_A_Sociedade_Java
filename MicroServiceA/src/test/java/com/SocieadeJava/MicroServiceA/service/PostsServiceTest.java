@@ -11,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -94,5 +93,16 @@ public class PostsServiceTest {
 
         verify(postClient, times(1)).getPostById(1L);
     }
+
+    @Test
+    void testarDeletarPost_deveLancarExcecaoQuandoFalhar() {
+        doThrow(new RuntimeException("Erro ao deletar post")).when(postClient).deletePost(1L);
+
+        RuntimeException excecao = assertThrows(RuntimeException.class, () -> postService.deletePost(1L));
+
+        assertEquals("Erro ao deletar post", excecao.getMessage());
+        verify(postClient, times(1)).deletePost(1L);
+    }
+
 
 }
