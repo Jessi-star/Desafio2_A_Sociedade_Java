@@ -1,8 +1,7 @@
-package com.SocieadeJava.MicroServiceA;
+package com.SocieadeJava.MicroServiceA.service;
 
 import com.SocieadeJava.MicroServiceA.dto.PostDTO;
 import com.SocieadeJava.MicroServiceA.intraclient.PostClient;
-import com.SocieadeJava.MicroServiceA.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class PostsIT {
+public class PostsServiceTest {
     @Mock
     private PostClient postClient;
 
