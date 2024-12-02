@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -60,5 +62,24 @@ public class PostsServiceTest {
         postService.deletePost(1L);
 
         verify(postClient, times(1)).deletePost(1L);
+    }
+
+    @Test
+    void testarListarPosts_deveRetornarListaPosts(){
+        List<PostDTO> simularPosts = List.of(
+                new PostDTO(1L, "Teste 1", "Conteudo 1"),
+                new PostDTO(1L, "Teste 2", "Conteudo 2")
+        );
+
+        when(postClient.getAllPosts()).thenReturn(simularPosts);
+
+        List<PostDTO> posts = postService.getAllPosts();
+
+        assertNotNull(posts, "A lista não pode ser nula");
+        assertEquals(2, posts.size(), "A lista deve conter pelo menos 2 posts");
+        assertEquals("Teste 1",posts.get(0).getTitle(), "O titulo 1 deve ser Teste 1");
+        assertEquals("Teste 2", posts.get(1).getTitle(), "O titulo 2 deve ser Teste 2");
+
+        verify(postClient, times(1)).getAllPosts();
     }
 }
