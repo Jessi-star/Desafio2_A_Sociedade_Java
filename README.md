@@ -12,6 +12,8 @@ Este projeto foi desenvolvido como parte de um **desafio técnico em grupo** par
 - **Jessica Abreu Rodrigues**  
 - **Nata Cezer Bordignon**  
 - **Vitor Hugo Balke Nodari**
+
+---
   
 ### 🏗️ Arquitetura dos Microsserviços
 
@@ -57,6 +59,8 @@ Este projeto foi desenvolvido como parte de um **desafio técnico em grupo** par
 - **API REST**
 - **Maven**
 
+---
+
 ## 🔧 Configuração  
 
 ### **Clonar os Repositórios e Iniciar os Microsserviços**
@@ -74,6 +78,13 @@ mvn spring-boot:run
 cd ../MicroServiceA
 mvn spring-boot:run
 ```
+
+---
+
+## 🌐 Acessar as Aplicações
+
+- **MicroService A :** [http://localhost:8080](http://localhost:8080)  
+- **MicroService B :** [http://localhost:8081](http://localhost:8081)
 
 ---
 
@@ -116,8 +127,6 @@ mvn test
 ---
 
 ## 📝 Dificuldades e Experiências
-
----
 
 Este foi o nosso primeiro desafio em grupo, o que trouxe muitos aprendizados. Para a maioria de nós, foi a primeira vez versionando o código de maneira conjunta, e isso gerou algumas experiências tanto boas quanto desafiadoras. 
 A integração com o OpenFeign foi um grande passo, já que foi a primeira vez que o utilizamos e, apesar de termos os conhecimentos adquiridos em Spring Boot, a implementação do OpenFeign nos causou um certo desconforto inicial. 
