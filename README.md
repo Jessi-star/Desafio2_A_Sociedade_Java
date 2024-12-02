@@ -54,46 +54,12 @@ Este projeto foi desenvolvido como parte de um **desafio técnico em grupo** par
 - **API REST**
 - **Maven**
 
-
-## **Estrutura do Projeto**  
-
-src/
-├── main/
-│   ├── java/
-│   │   └── com.sociedadejava.microservicea/
-│   │       ├── controller/         # Controladores REST
-│   │       ├── service/            # Lógica de negócios
-│   │       ├── intraclient/        # Clientes Feign para MicroServiceB
-│   │       ├── dto/                # Objetos de Transferência de Dados
-│   │       └── MicroServiceAApplication.java # Classe principal
-│   └── resources/
-│       └── application.properties  # Arquivo de configuração
-└── test/                            # Testes unitários e de integração
-
-
-MicroServiceB/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com.sociedadejava.microserviceb/
-│   │   │       ├── client/          # Clientes Feign para API externa
-│   │   │       ├── controller/      # Controladores REST
-│   │   │       ├── service/         # Lógica de negócios
-│   │   │       ├── repository/      # Repositórios JPA
-│   │   │       ├── dto/             # Objetos de Transferência de Dados
-│   │   │       ├── entity/          # Entidades do banco de dados
-│   │  │        ├── exceptions/     # Exceções
-│   │   │       └── MicroServiceBApplication.java # Classe principal
-│   │   └── resources/
-│   │       ├── application.properties       # Arquivo de configuração
-│   │  
-└── test/                                    # Testes unitários e de integração
-
-
 ## 🔧 Configuração  
 
 
+
 ### **Clonar os Repositórios e Iniciar os Microsserviços**
+
 ```bash
 # Clonar os repositórios
 git clone https://github.com/<seu-usuario>/MicroServiceA.git
@@ -106,5 +72,10 @@ mvn spring-boot:run
 # Iniciar o MicroService A
 cd ../MicroServiceA
 mvn spring-boot:run
+
+Melhorias Futuras:
+Comentários nos posts
+Mais features (CRUD de comentários, novos métodos)
+Integração com JWT
 
 
