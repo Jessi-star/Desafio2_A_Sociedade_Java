@@ -52,4 +52,13 @@ public class PostsServiceTest {
 
         verify(postClient, times(1)).updatePost(1L, postDTO);
     }
+
+    @Test
+    void testarExcluirPost_deveChamarPostClient(){
+        doNothing().when(postClient).deletePost(1L);
+
+        postService.deletePost(1L);
+
+        verify(postClient, times(1)).deletePost(1L);
+    }
 }
