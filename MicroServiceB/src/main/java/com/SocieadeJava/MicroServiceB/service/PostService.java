@@ -25,6 +25,7 @@ public class PostService {
         this.jsonPlaceholderClient = jsonPlaceholderClient;
     }
 
+
     public PostDTO createPost(PostDTO postDTO) {
         Post post = new Post();
         post.setTitulo(postDTO.getTitle());
