@@ -1,12 +1,8 @@
 package com.SocieadeJava.MicroServiceA.intraclient;
 
-
-
 import com.SocieadeJava.MicroServiceA.dto.PostDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,4 +14,13 @@ public interface PostClient {
 
     @PostMapping("/posts")
     PostDTO createPost(@RequestBody PostDTO postDTO);
+
+    @PutMapping("/posts/{id}")
+    PostDTO updatePost(@PathVariable Long id, @RequestBody PostDTO postDTO);
+
+    @DeleteMapping("/posts/{id}")
+    void deletePost(@PathVariable Long id);
+
+    @GetMapping("/posts/{id}")
+    PostDTO getPostById(@PathVariable Long id);
 }

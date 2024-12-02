@@ -1,9 +1,7 @@
 package com.SocieadeJava.MicroServiceA.service;
 
-
 import com.SocieadeJava.MicroServiceA.dto.PostDTO;
 import com.SocieadeJava.MicroServiceA.intraclient.PostClient;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +15,27 @@ public class PostService {
         this.postClient = postClient;
     }
 
-    public List<PostDTO> fetchAllPosts() {
+    public PostDTO createPost(PostDTO postDTO) {
+        return postClient.createPost(postDTO);
+    }
+
+    public PostDTO updatePost(Long id, PostDTO postDTO) {
+        return postClient.updatePost(id, postDTO);
+    }
+
+    public void deletePost(Long id) {
+        postClient.deletePost(id);
+    }
+
+    public List<PostDTO> getAllPosts() {
         return postClient.getAllPosts();
     }
 
-    public PostDTO createPost(PostDTO postDTO) {
-        return postClient.createPost(postDTO);
+    public PostDTO getPostById(Long id) {
+        return postClient.getPostById(id);
+    }
+
+    public List<PostDTO> fetchAllPosts() {
+        return postClient.getAllPosts();
     }
 }
