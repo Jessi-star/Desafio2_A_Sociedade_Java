@@ -18,3 +18,4 @@ public class PostDTO {
     @Size(min = 10, message = "O corpo deve ter pelo menos 10 caracteres.")
     private String body;
 }
+//.........
